@@ -35,6 +35,8 @@
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// 往后进位，进位保存到下一个节点，如果还有其他值，进位继续，直到最后一个节点。
+
 public class ListNode {
 	public var val: Int
 	public var next: ListNode?
