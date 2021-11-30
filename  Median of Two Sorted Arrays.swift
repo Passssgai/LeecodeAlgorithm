@@ -43,6 +43,40 @@ nums2.length == n
 
 class Solution {
     func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+        var numsSum = nums1 + nums2
+         quicksort(&numsSum,0,numsSum.count-1)
+        if numsSum.count % 2 == 0 {
+            return Double((numsSum[numsSum.count/2] + numsSum[numsSum.count/2-1]))/2
+        }else {
+            return Double(numsSum[(numsSum.count - 1)/2])
+        }
+	}
+	func quicksort(_ array:inout[Int], _ low:Int ,_ high:Int) {
+		if low < high {
+			let pivot = partition(&array, low, high)
+			quicksort(&array, low, pivot - 1)
+			quicksort(&array, pivot + 1, high)
+		}
+	}
+	func partition(_  array:inout [Int], _ low:Int, _ high:Int) -> Int {
+		let pivot = array[high]
+		var i = low - 1
+		for j in low..<high {
+			if array[j] <= pivot {
+				i += 1
+				let temp = array[i]
+				array[i] = array[j]
+				array[j] = temp
+			}
+		}
+		let temp = array[i + 1]
+		array[i + 1] = array[high]
+		array[high] = temp
+		return i + 1
+	}
+}
 
-    }
-}g
+let solution = Solution()
+// print(solution.quicksort([0,0,0,0,0,-1,0,0,0,0,0,1],0,11))
+
+print(solution.findMedianSortedArrays([0,0,0,0,0], [-1,0,0,0,0,0,1]))
