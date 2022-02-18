@@ -41,24 +41,27 @@ class Solution {
         if nums.count == 1 {
             return nums[0] == target ? [0, 0] : [-1, -1]
         }
-        var min = -1
-        var max = -1
         var left = 0
         var right = nums.count - 1
-        while left <= right  {
+        while left < right {
             let mid = (left + right) / 2
-            if nums[mid] == target {
-                if mid < min && min != -1 {
-                    min = mid
-                } else if mid > max {
-                    max = mid
-                }
-            } else if nums[mid] < target {
+            if nums[mid] < target {
                 left = mid + 1
             } else {
-                right = mid - 1
+                right = mid
             }
         }
-        return [min, max]
+        if nums[left] != target {
+            return [-1, -1]
+        }
+        var leftIndex = left
+        var rightIndex = left
+        while leftIndex >= 0 && nums[leftIndex] == target {
+            leftIndex -= 1
+        }
+        while rightIndex < nums.count && nums[rightIndex] == target {
+            rightIndex += 1
+        }
+        return [leftIndex + 1, rightIndex - 1]
     }
 }
