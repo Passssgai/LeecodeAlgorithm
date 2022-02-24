@@ -42,18 +42,12 @@
 */
 class Solution {
     func uniquePaths(_ m: Int, _ n: Int) -> Int {
-        var dp = Array(repeating: Array(repeating: 1, count: n), count: m)
-        for index in 0..<m {
-            dp[index][0] = 1
+        var ans = 1
+        for i in 1..<m {
+            ans *= n - i + 1
+            ans /= i
         }
-        for index in 0..<n {
-            dp[0][index] = 1
-        }
-        for index in 1..<m {
-            for j in 1..<n {
-                dp[index][j] = dp[index - 1][j] + dp[index][j - 1]
-            }
-        }
-        return dp[m - 1][n - 1]
+
+        return ans
     }
 }
