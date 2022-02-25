@@ -42,7 +42,7 @@ class Solution {
         dp[0] = true
         for i in 1...s.count {
             for j in 0..<i {
-                if dp[j] && wordDict.contains(String(s[j..<i])) {
+                if dp[j] && wordDict.contains(String(s[String.Index(encodedOffset: j)..<String.Index(encodedOffset: i)])) {
                     dp[i] = true
                     break
                 }
@@ -51,3 +51,4 @@ class Solution {
         return dp[s.count]
     }
 }
+
