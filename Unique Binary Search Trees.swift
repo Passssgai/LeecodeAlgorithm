@@ -27,6 +27,9 @@
 class Solution {
     func numTrees(_ n: Int) -> Int {
         var dp = Array(repeating: 0, count: n + 1)
+        if n == 0 || n == 1 {
+            return 1
+        }
         dp[0] = 1
         dp[1] = 1
         for index in 2...n {
