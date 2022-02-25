@@ -24,3 +24,16 @@
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+class Solution {
+    func numTrees(_ n: Int) -> Int {
+        var dp = Array(repeating: 0, count: n + 1)
+        dp[0] = 1
+        dp[1] = 1
+        for index in 2...n {
+            for i in 1...index {
+                dp[index] += dp[i - 1] * dp[index - i]
+            }
+        }
+        return dp[n]
+    }
+}
