@@ -37,9 +37,10 @@ s 和 t 由英文字母组成
 链接：https://leetcode-cn.com/problems/minimum-window-substring
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
+
 class Solution {
     func minWindow(_ s: String, _ t: String) -> String {
-        var dict = [Character: Int]()
+        var dict = [Character:Int]()
         for char in t {
             dict[char] = (dict[char] ?? 0) + 1
         }
@@ -50,36 +51,30 @@ class Solution {
         var minRight = 0
         var minLen = Int.max
         while right < s.count {
-            let char = s[s.index(s.startIndex, offsetBy: right)]
-            if let num = dict[char] {
-                dict[char] = num - 1
+            let rightChar = s[String.Index(utf16Offset: right, in: s)]
+            if let num = dict[rightChar] {
+                dict[rightChar] = num - 1
                 if num > 0 {
                     count += 1
                 }
             }
-            right += 1
             while count == t.count {
-                if right - left < minLen {
+                if right - left + 1 < minLen {
                     minLeft = left
                     minRight = right
-                    minLen = right - left
+                    minLen = right - left + 1
                 }
-                let leftChar = s[s.index(s.startIndex, offsetBy: left)]
+                let leftChar = s[String.Index(utf16Offset: left, in: s)]
                 if let num = dict[leftChar] {
                     dict[leftChar] = num + 1
-                    if num < 0 {
-                        count += 1
+                    if num == 0 {
+                        count -= 1
                     }
                 }
                 left += 1
             }
+            right += 1
         }
-        if minLen == Int.max {
-            return ""
-        }
-        return String(s[s.index(s.startIndex, offsetBy: minLeft)..<s.index(s.startIndex, offsetBy: minRight)])
+        return minLen == Int.max ? "" : String(s[s.index(s.startIndex, offsetBy: minLeft)..<s.index(s.startIndex, offsetBy: minRight + 1)])
     }
 }
-
-let sot = Solution().minWindow("ADOBECODEBANC", "ABC")
-print(sot)
