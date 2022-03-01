@@ -40,41 +40,53 @@ s 和 t 由英文字母组成
 
 class Solution {
     func minWindow(_ s: String, _ t: String) -> String {
-        var dict = [Character:Int]()
-        for char in t {
-            dict[char] = (dict[char] ?? 0) + 1
+
+        func check(_ map:[Character:Int]) -> Bool {
+            for (_, v) in map {
+                if v > 0 {
+                    return false
+                }
+            }
+            return true
+        }
+        var map = [Character: Int]()
+        for c in t {
+            map[c] = (map[c] ?? 0) + 1
         }
         var left = 0
         var right = 0
-        var count = 0
         var minLeft = 0
         var minRight = 0
         var minLen = Int.max
+        var count = t.count
         while right < s.count {
-            let rightChar = s[String.Index(utf16Offset: right, in: s)]
-            if let num = dict[rightChar] {
-                dict[rightChar] = num - 1
-                if num > 0 {
-                    count += 1
+            let c = s[s.index(s.startIndex, offsetBy: right)]
+            if let v = map[c] {
+                map[c] = v - 1
+                if v > 0 {
+                    count -= 1
                 }
             }
-            while count == t.count {
-                if right - left + 1 < minLen {
+            right += 1
+            while count == 0 {
+                let c = s[s.index(s.startIndex, offsetBy: left)]
+                if let v = map[c] {
+                    map[c] = v + 1
+                    if v < 0 {
+                        count += 1
+                    }
+                }
+                if right - left < minLen {
                     minLeft = left
                     minRight = right
-                    minLen = right - left + 1
-                }
-                let leftChar = s[String.Index(utf16Offset: left, in: s)]
-                if let num = dict[leftChar] {
-                    dict[leftChar] = num + 1
-                    if num == 0 {
-                        count -= 1
-                    }
+                    minLen = right - left
                 }
                 left += 1
             }
-            right += 1
         }
-        return minLen == Int.max ? "" : String(s[s.index(s.startIndex, offsetBy: minLeft)..<s.index(s.startIndex, offsetBy: minRight + 1)])
+        if minLen == Int.max {
+            return ""
+        }
+        return String(s[s.index(s.startIndex, offsetBy: minLeft)..<s.index(s.startIndex, offsetBy: minRight)])
     }
 }

@@ -41,6 +41,28 @@ board 和 word 仅由大小写英文字母组成
 class Solution {
     func exist(_ board: [[Character]], _ word: String) -> Bool {
         var dp = [[Bool]](repeating: [Bool](repeating: false, count: board[0].count), count: board.count)
-        
+        func dfs(_ i: Int, _ j: Int, _ index: Int) -> Bool {
+            if index == word.count {
+                return true
+            }
+            if i < 0 || i >= board.count || j < 0 || j >= board[0].count || dp[i][j] {
+                return false
+            }
+            if board[i][j] != word[String.Index(utf16Offset:index, in: word)] {
+                return false
+            }
+            dp[i][j] = true
+            let res = dfs(i + 1, j, index + 1) || dfs(i - 1, j, index + 1) || dfs(i, j + 1, index + 1) || dfs(i, j - 1, index + 1)
+            dp[i][j] = false
+            return res
+        }
+        for i in 0..<board.count {
+            for j in 0..<board[0].count {
+                if dfs(i, j, 0) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 }
