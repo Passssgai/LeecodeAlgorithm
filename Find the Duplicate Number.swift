@@ -37,13 +37,17 @@ nums 中 只有一个整数 出现 两次或多次 ，其余整数均只出现 �
 
 class Solution {
     func findDuplicate(_ nums: [Int]) -> Int {
-        var numDict = [Int:Int]()
-        for num in nums {
-            if let numItem = numDict[num] {
-                return num
-            }
-            numDict[num] = -1
+        var slow = nums[0]
+        var fast = nums[nums[0]]
+        while slow != fast {
+            slow = nums[slow]
+            fast = nums[nums[fast]]
         }
-        return 0
+        slow = 0
+        while slow != fast {
+            slow = nums[slow]
+            fast = nums[fast]
+        }
+        return slow
     }
 }
