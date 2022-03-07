@@ -28,10 +28,12 @@ prerequisites[i].length == 2
 0 <= ai, bi < numCourses
 prerequisites[i] 中的所有课程对 互不相同
 
+
 来源：力扣（LeetCode）
 链接：https://leetcode-cn.com/problems/course-schedule
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
+
 class Solution {
     func canFinish(_ numCourses: Int, _ prerequisites: [[Int]]) -> Bool {
         

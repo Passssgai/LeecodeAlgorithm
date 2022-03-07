@@ -36,3 +36,34 @@
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+class Codec {
+    func serialize(_ root: TreeNode?) -> String {
+        var res = ""
+        func serialize(_ root: TreeNode?) {
+            guard let root = root else {
+                return
+            }
+            res += "\(root.val) "
+            serialize(root.left)
+            serialize(root.right)
+        }
+        serialize(root)
+        return res
+    }
+    
+    func deserialize(_ data: String) -> TreeNode? {
+        var data = data.split(separator: " ").map { Int($0)! }
+        return deserializeXX(&data)   
+    }
+    func deserializeXX(_ data: inout [Int]) -> TreeNode? {
+        guard data.count > 0 else {
+            return nil
+        }
+        let val = data.removeFirst()
+        let node = TreeNode(val)
+        node.left = deserializeXX(&data)
+        node.right = deserializeXX(&data)
+        return node
+    }
+
+}
